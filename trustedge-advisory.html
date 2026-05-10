@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trustedge Advisory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0b1630;
+    --navy-mid: #111f45;
+    --navy-light: #1a2d5a;
+    --gold: #c9a84c;
+    --gold-light: #e2c27d;
+    --gold-pale: #f5e6c0;
+    --white: #ffffff;
+    --off-white: #f0ead8;
+    --text-muted: rgba(255,255,255,0.55);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Animated background ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,168,76,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 90%, rgba(201,168,76,0.05) 0%, transparent 55%),
+      radial-gradient(ellipse 100% 80% at 50% 50%, rgba(17,31,69,0.8) 0%, var(--navy) 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Noise grain overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper { position: relative; z-index: 1; }
+
+  /* ── Hero ── */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 24px 48px;
+    text-align: center;
+    position: relative;
+  }
+
+  .hero-logo {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 28px;
+    animation: fadeDown 0.9s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  /* SVG shield logo */
+  .shield-svg { width: 90px; height: 90px; }
+
+  .hero-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 7vw, 3.2rem);
+    font-weight: 300;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--white);
+    animation: fadeDown 0.9s 0.1s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  .hero-brand span {
+    color: var(--gold);
+  }
+
+  .gold-line {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 18px auto;
+    animation: scaleX 0.8s 0.3s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  .hero-tagline {
+    font-size: 0.7rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    animation: fadeUp 0.8s 0.4s both;
+  }
+
+  /* ── Section headers ── */
+  .section {
+    padding: 20px 20px 40px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.7s 0.3s both;
+  }
+
+  .section-label span {
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(201,168,76,0.4), transparent);
+  }
+
+  /* ── Partner cards ── */
+  .partners-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .partner-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+    border: 1px solid rgba(201,168,76,0.18);
+    border-radius: 4px;
+    padding: 28px 28px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    animation: fadeUp 0.7s both;
+  }
+
+  .partner-card:nth-child(1) { animation-delay: 0.15s; }
+  .partner-card:nth-child(2) { animation-delay: 0.25s; }
+  .partner-card:nth-child(3) { animation-delay: 0.35s; }
+
+  .partner-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(201,168,76,0.4);
+  }
+
+  .partner-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--gold), transparent);
+  }
+
+  .partner-card::after {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .partner-title-small {
+    font-size: 0.58rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .partner-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem;
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .partner-contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--off-white);
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    opacity: 0.85;
+    transition: opacity 0.2s, color 0.2s;
+  }
+
+  .contact-link:hover {
+    opacity: 1;
+    color: var(--gold-light);
+  }
+
+  .contact-link .icon {
+    width: 28px;
+    height: 28px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    transition: background 0.2s;
+  }
+
+  .contact-link:hover .icon {
+    background: rgba(201,168,76,0.2);
+  }
+
+  /* ── Services ── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .service-item {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(201,168,76,0.12);
+    border-radius: 3px;
+    padding: 18px 16px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.6s both;
+  }
+
+  .service-item:nth-child(1) { animation-delay: 0.1s; }
+  .service-item:nth-child(2) { animation-delay: 0.18s; }
+  .service-item:nth-child(3) { animation-delay: 0.26s; }
+  .service-item:nth-child(4) { animation-delay: 0.34s; }
+  .service-item:nth-child(5) { animation-delay: 0.42s; grid-column: span 2; }
+
+  .service-item::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  .service-item:hover::before {
+    transform: scaleX(1);
+  }
+
+  .service-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: rgba(201,168,76,0.2);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .service-name {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--off-white);
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  /* ── Address ── */
+  .address-block {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(201,168,76,0.12);
+    border-radius: 4px;
+    padding: 24px 28px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    animation: fadeUp 0.7s 0.2s both;
+  }
+
+  .address-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1rem;
+    margin-top: 2px;
+  }
+
+  .address-text {
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--off-white);
+    opacity: 0.8;
+  }
+
+  .address-text strong {
+    display: block;
+    color: var(--gold-light);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  /* ── Quote block ── */
+  .quote-block {
+    text-align: center;
+    padding: 40px 24px;
+    max-width: 560px;
+    margin: 0 auto;
+    animation: fadeUp 0.7s 0.1s both;
+  }
+
+  .quote-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    color: var(--gold);
+    line-height: 0.5;
+    opacity: 0.4;
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .quote-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--off-white);
+    line-height: 1.75;
+    opacity: 0.85;
+  }
+
+  /* ── CTA buttons ── */
+  .cta-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 8px 20px 48px;
+    animation: fadeUp 0.7s 0.2s both;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 26px;
+    border-radius: 2px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold), #a07830);
+    color: var(--navy);
+  }
+
+  .btn-gold:hover {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(201,168,76,0.3);
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold-light);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.08);
+    transform: translateY(-1px);
+  }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding: 24px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .footer .gold-text { color: var(--gold); }
+
+  /* ── Divider ── */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.2), transparent);
+    margin: 8px 0 36px;
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scaleX {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+
+  /* ── vCard download ── */
+  .vcard-btn { display: none; }
+
+  /* Mobile tweaks */
+  @media (max-width: 380px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .service-item:nth-child(5) { grid-column: span 1; }
+    .partner-name { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- ── HERO ── -->
+  <div class="hero">
+    <!-- Shield Logo SVG -->
+    <div class="hero-logo">
+      <svg class="shield-svg" viewBox="0 0 100 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#e8c97a"/>
+            <stop offset="50%" stop-color="#c9a84c"/>
+            <stop offset="100%" stop-color="#9a7028"/>
+          </linearGradient>
+        </defs>
+        <!-- Shield body -->
+        <path d="M50 4 L92 20 L92 58 Q92 88 50 108 Q8 88 8 58 L8 20 Z"
+              fill="none" stroke="url(#goldGrad)" stroke-width="3.5" stroke-linejoin="round"/>
+        <!-- T letter -->
+        <line x1="28" y1="36" x2="72" y2="36" stroke="url(#goldGrad)" stroke-width="5.5" stroke-linecap="round"/>
+        <line x1="50" y1="36" x2="50" y2="68" stroke="url(#goldGrad)" stroke-width="5.5" stroke-linecap="round"/>
+        <!-- E letter (right side hint) -->
+        <line x1="56" y1="50" x2="74" y2="50" stroke="url(#goldGrad)" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+        <line x1="56" y1="58" x2="70" y2="58" stroke="url(#goldGrad)" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+        <line x1="56" y1="66" x2="74" y2="66" stroke="url(#goldGrad)" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+      </svg>
+    </div>
+
+    <div class="hero-brand">Trust<span>edge</span> Advisory</div>
+    <div class="gold-line"></div>
+    <div class="hero-tagline">The Trust You Need · The Edge You Deserve</div>
+  </div>
+
+  <!-- ── PARTNERS ── -->
+  <div class="section">
+    <div class="section-label"><span>Our Partners</span></div>
+    <div class="partners-grid">
+
+      <!-- Partner 1 -->
+      <div class="partner-card">
+        <div class="partner-title-small">Partner</div>
+        <div class="partner-name">Hemant Sancheti</div>
+        <div class="partner-contacts">
+          <a class="contact-link" href="tel:+918097215218">
+            <span class="icon">📞</span>
+            +91 80972 15218
+          </a>
+          <a class="contact-link" href="mailto:advisorytrustedge@gmail.com">
+            <span class="icon">✉️</span>
+            advisorytrustedge@gmail.com
+          </a>
+          <a class="contact-link" href="https://wa.me/918097215218" target="_blank">
+            <span class="icon">💬</span>
+            WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <!-- Partner 2 -->
+      <div class="partner-card">
+        <div class="partner-title-small">Partner</div>
+        <div class="partner-name">Naveen Mehta</div>
+        <div class="partner-contacts">
+          <a class="contact-link" href="tel:+919969752195">
+            <span class="icon">📞</span>
+            +91 99697 52195
+          </a>
+          <a class="contact-link" href="https://wa.me/919969752195" target="_blank">
+            <span class="icon">💬</span>
+            WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <!-- Partner 3 -->
+      <div class="partner-card">
+        <div class="partner-title-small">Partner</div>
+        <div class="partner-name">Ajesh Dalal</div>
+        <div class="partner-contacts">
+          <a class="contact-link" href="tel:+919819831121">
+            <span class="icon">📞</span>
+            +91 98198 31121
+          </a>
+          <a class="contact-link" href="https://wa.me/919819831121" target="_blank">
+            <span class="icon">💬</span>
+            WhatsApp
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── SERVICES ── -->
+  <div class="section">
+    <div class="section-label"><span>Our Services</span></div>
+    <div class="services-grid">
+      <div class="service-item">
+        <div class="service-number">01</div>
+        <div class="service-name">IPO Advisory &amp; Listing</div>
+      </div>
+      <div class="service-item">
+        <div class="service-number">02</div>
+        <div class="service-name">Loan Financing &amp; Financial Solutions</div>
+      </div>
+      <div class="service-item">
+        <div class="service-number">03</div>
+        <div class="service-name">Business Consultancy &amp; Strategy</div>
+      </div>
+      <div class="service-item">
+        <div class="service-number">04</div>
+        <div class="service-name">Compliance &amp; Regulatory Support</div>
+      </div>
+      <div class="service-item">
+        <div class="service-number">05</div>
+        <div class="service-name">Outsourced US Accounting, Taxation &amp; Payroll Services</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── ADDRESS ── -->
+  <div class="section" style="padding-bottom: 20px;">
+    <div class="section-label"><span>Find Us</span></div>
+    <div class="address-block">
+      <div class="address-icon">📍</div>
+      <div class="address-text">
+        <strong>Office Address</strong>
+        401, Mukund Palace,<br>
+        New Golden Nest, Bhayander East,<br>
+        Thane – 401105
+      </div>
+    </div>
+  </div>
+
+  <!-- ── QUOTE ── -->
+  <div class="quote-block">
+    <span class="quote-mark">"</span>
+    <div class="quote-text">
+      Delivering trusted financial solutions with integrity and expertise — helping businesses and individuals achieve sustainable growth and long-term success.
+    </div>
+  </div>
+
+  <!-- ── CTA ── -->
+  <div class="cta-row">
+    <a class="btn btn-gold" href="tel:+918097215218">📞 &nbsp;Call Us</a>
+    <a class="btn btn-outline" href="mailto:advisorytrustedge@gmail.com">✉️ &nbsp;Email Us</a>
+    <a class="btn btn-outline" id="vcardBtn" href="#" onclick="downloadVCard(); return false;">⬇️ &nbsp;Save Contact</a>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <div class="footer">
+    <span class="gold-text">Trustedge Advisory</span> &nbsp;·&nbsp; Thane, Maharashtra &nbsp;·&nbsp; India
+  </div>
+
+</div>
+
+<script>
+function downloadVCard() {
+  const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:Hemant Sancheti - Trustedge Advisory
+N:Sancheti;Hemant;;;
+ORG:Trustedge Advisory
+TITLE:Partner
+TEL;TYPE=CELL:+918097215218
+EMAIL:advisorytrustedge@gmail.com
+ADR;TYPE=WORK:;;401 Mukund Palace, New Golden Nest;Bhayander East;Thane;401105;India
+NOTE:The Trust You Need. The Edge You Deserve.
+URL:
+END:VCARD`;
+  const blob = new Blob([vcard], { type: 'text/vcard' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'trustedge-advisory.vcf';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Intersection Observer for scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.partner-card, .service-item, .address-block').forEach(el => {
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
